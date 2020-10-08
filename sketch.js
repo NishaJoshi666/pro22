@@ -1,9 +1,11 @@
-var helicopterIMG, helicopterSprite, packageSprite,packageIMG;
+  var helicopterIMG, helicopterSprite, packageSprite,packageIMG;
 var packageBody,ground
 const Engine = Matter.Engine;
 const World = Matter.World;
 const Bodies = Matter.Bodies;
 const Body = Matter.Body;
+const Render = Matter.Render;
+
 
 function preload()
 {
@@ -31,22 +33,18 @@ function setup() {
 	engine = Engine.create();
 	world = engine.world;
 
-	var package_options = {
-        restitution:0.8
-    }
+	packageBody = Bodies.circle(width/2 , 200 , 5 , {restitution:0.3, isStatic:true});
+	World.add(world, packageBody);
 	
-	packageBody = Bodies.circle(width/2 , 200 , 5 , package_options);
-	World.add(world,packageBody);
-	
-	var ground_options = {
-        isStatic:true
-    }
 
 	//Create a Ground
-	ground = Bodies.rectangle(width/2, 650, width, 10 ,ground_options);
+	ground = Bodies.rectangle(width/2, 650, width, 10 , {isStatic:true} );
  	World.add(world, ground);
 
+
 	Engine.run(engine);
+
+	
   
 }
 
@@ -56,7 +54,6 @@ function draw() {
   background(0);
   packageSprite.x= packageBody.position.x 
   packageSprite.y= packageBody.position.y 
- keyPressed();
   drawSprites();
  
 }
@@ -64,6 +61,8 @@ function draw() {
 function keyPressed() {
  if (keyCode === DOWN_ARROW) {
 	// Look at the hints in the document and understand how to make the package body fall only on
+	Matter.Body.setStatic(packageBody,false);
 
-  }
+   }
 }
+
